@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnListClickListener{
 
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mRefreshlayout;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView= (RecyclerView) findViewById(R.id.recycler);
         mRefreshlayout= (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
         mLinearLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new MainRecyclerAdapter(DataSource.generateData(20));
+        mAdapter = new MainRecyclerAdapter(DataSource.generateData(20),MainActivity.this);
         mRecyclerView.setAdapter(mAdapter);
 
         //每个item高度一致，可设置为true，提高性能
@@ -60,12 +60,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //为每个item增加响应事件
-        mAdapter.setOnItemClickListener(new MainRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void OnItemClick(View view, String data) {
-                Toast.makeText(MainActivity.this, "data:" + data, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        mAdapter.setOnItemClickListener(new MainRecyclerAdapter.OnItemClickListener() {
+//            @Override
+//            public void OnItemClick(View view, String data) {
+//                Toast.makeText(MainActivity.this, "data:" + data, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void OnIconClick(View view, int position) {
+//
+//            }
+//
+//
+//        });
     }
 
     @Override
@@ -89,6 +96,25 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void OnItemClick(View view, String data) {
+        Toast.makeText(MainActivity.this, "来自Item的点击事件:" + data, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void OnItemTextClick(View view, String data) {
+        Toast.makeText(MainActivity.this, "来自text的点击事件:" + data, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void OnItemIconClick(View view, String data) {
+        Toast.makeText(MainActivity.this, "来自icon的点击事件:" + data, Toast.LENGTH_SHORT).show();
+
+    }
+
 
 
     private class UpdateTask extends AsyncTask<Void,Void,List<String>>
